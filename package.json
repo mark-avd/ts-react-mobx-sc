@@ -48,12 +48,12 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json}": [
-      "eslint --cache"
-    ],
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "eslint --cache",
       "prettier --write"
     ],
-    "*.{js,css,md}": "prettier --write"
+    "src/**/*.{css,md}": [
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
