@@ -27,7 +27,7 @@ class Store {
 
     async fetchPosts() {
         const response = await fetchPosts()
-        runInAction(() => (this.posts = response.slice(0, 10)))
+        runInAction(() => (this.posts = response))
     }
 }
 
