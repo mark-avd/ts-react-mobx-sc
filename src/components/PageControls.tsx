@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { store } from '../stores/store'
+import { observer } from 'mobx-react'
 
 const LinksContainer = styled.div`
     display: flex;
@@ -64,11 +65,7 @@ const PageControls: React.FC<PageControlsProps> = ({ page }) => {
             )}
             <DirectLinksContainer>
                 {store.pages.map((item) => (
-                    <DirectLink
-                        key={item}
-                        to={`/${item}`}
-                        $isActive={page === item}
-                    >
+                    <DirectLink key={item} to={`/${item}`} $isActive={page === item}>
                         {item}
                     </DirectLink>
                 ))}
@@ -88,4 +85,4 @@ const PageControls: React.FC<PageControlsProps> = ({ page }) => {
     )
 }
 
-export default PageControls
+export default observer(PageControls)

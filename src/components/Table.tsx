@@ -1,15 +1,10 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import styled from 'styled-components'
-import Icon from './Icon'
+import TableHeaderCell from './TableHeaderCell'
+import TableBodyRow from './TableBodyRow'
 import StyledTable from './UI/StyledTable'
 import pageSlicer from '../utils/pageSlicer'
 import { store } from '../stores/store'
-
-const IconContainer = styled.span`
-    margin-left: 10px;
-    cursor: pointer;
-`
 
 interface TableProps {
     page: number
@@ -21,35 +16,33 @@ const Table: React.FC<TableProps> = ({ page, postsPerPage }) => {
         <StyledTable>
             <thead>
                 <tr>
-                    <th>
-                        ID
-                        <IconContainer onClick={store.sortById}>
-                            <Icon type={'sort'} />
-                        </IconContainer>
-                    </th>
-                    <th>
-                        Заголовок
-                        <IconContainer onClick={store.sortByTitle}>
-                            <Icon type={'sort'} />
-                        </IconContainer>
-                    </th>
-                    <th>
-                        Описание
-                        <IconContainer onClick={store.sortByBody}>
-                            <Icon type={'sort'} />
-                        </IconContainer>
-                    </th>
+                    <TableHeaderCell text={'ID'} onClick={store.sortById} />
+                    <TableHeaderCell text={'Заголовок'} onClick={store.sortByTitle} />
+                    <TableHeaderCell text={'Описание'} onClick={store.sortByBody} />
                 </tr>
             </thead>
             <tbody>
                 {store.posts
+                    .filter((item) => {
+                        if (
+                            item.title
+                                .toLowerCase()
+                                .includes(store.searchTerm.toLowerCase()) ||
+                            item.body
+                                .toLowerCase()
+                                .includes(store.searchTerm.toLowerCase())
+                        ) {
+                            return item
+                        }
+                    })
                     .slice(...pageSlicer(postsPerPage, page))
                     .map((post) => (
-                        <tr key={post.id}>
-                            <td>{post.id}</td>
-                            <td>{post.title}</td>
-                            <td>{post.body}</td>
-                        </tr>
+                        <TableBodyRow
+                            key={post.id}
+                            id={post.id}
+                            title={post.title}
+                            body={post.body}
+                        />
                     ))}
             </tbody>
         </StyledTable>

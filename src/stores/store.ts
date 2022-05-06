@@ -6,6 +6,7 @@ import makeArrayOutOf from '../utils/makeArrayOutOf'
 class Store {
     posts: Post[] = []
     postsPerPage = 10
+    searchTerm = ''
 
     constructor() {
         makeAutoObservable(this)
@@ -24,15 +25,15 @@ class Store {
     }
 
     sortByTitle = () => {
-        this.posts = [...this.posts].sort((a, b) =>
-            a.title.localeCompare(b.title)
-        )
+        this.posts = [...this.posts].sort((a, b) => a.title.localeCompare(b.title))
     }
 
     sortByBody = () => {
-        this.posts = [...this.posts].sort((a, b) =>
-            a.body.localeCompare(b.body)
-        )
+        this.posts = [...this.posts].sort((a, b) => a.body.localeCompare(b.body))
+    }
+
+    setSearchTerm = (searchTerm: string) => {
+        this.searchTerm = searchTerm
     }
 
     async fetchPosts() {

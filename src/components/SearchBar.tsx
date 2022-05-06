@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Icon from './Icon'
 import StyledInput from './UI/StyledInput'
+import { store } from '../stores/store'
 
 const SearchBarContainer = styled.div`
     position: relative;
@@ -16,9 +17,12 @@ const IconContainer = styled.span`
 `
 
 const SearchBar: React.FC = () => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        store.setSearchTerm(event.target.value)
+    }
     return (
         <SearchBarContainer>
-            <StyledInput placeholder={'Поиск'} />
+            <StyledInput placeholder={'Поиск'} onChange={handleChange} />
             <IconContainer>
                 <Icon type={'search'} />
             </IconContainer>
