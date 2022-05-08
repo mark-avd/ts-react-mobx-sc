@@ -1,9 +1,9 @@
 import React from 'react'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
 import Icon from './Icon'
 import StyledInput from './UI/StyledInput'
 import { store } from '../stores/store'
-import { observer } from 'mobx-react'
 
 const SearchBarContainer = styled.div`
     position: relative;
@@ -12,7 +12,6 @@ const SearchBarContainer = styled.div`
 
 const IconContainer = styled.span`
     position: absolute;
-    cursor: pointer;
     right: 16px;
     top: 15px;
 `

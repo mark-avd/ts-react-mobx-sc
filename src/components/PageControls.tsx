@@ -51,13 +51,15 @@ const PageControls: React.FC<PageControlsProps> = ({ currentPage, pages, lastPag
                     Назад
                 </StyledLink>
             ) : (
-                <StyledLink to={`/${currentPage - 1}`}>Назад</StyledLink>
+                <StyledLink to={currentPage === 2 ? '/' : `/${currentPage - 1}`}>
+                    Назад
+                </StyledLink>
             )}
             <DirectLinksContainer>
                 {pages?.map((item) => (
                     <DirectLink
                         key={item}
-                        to={`/${item}`}
+                        to={item === 1 ? '/' : `/${item}`}
                         $isActive={currentPage === item}
                     >
                         {item}
