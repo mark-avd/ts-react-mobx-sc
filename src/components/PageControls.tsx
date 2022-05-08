@@ -1,33 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { store } from '../stores/store'
-import { observer } from 'mobx-react'
+import StyledLink from './UI/StyledLink'
 
 const LinksContainer = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-`
-
-const PageSwitcher = styled(Link)`
-    color: #474955;
-    line-height: 33px;
-    font-size: 24px;
-    font-weight: 500;
-    text-decoration: none;
-    user-select: none;
-
-    &:hover {
-        color: #000;
-    }
+    justify-content: space-around;
 `
 
 const DirectLinksContainer = styled.div`
     display: flex;
+    font-style: italic;
 `
 
-const DirectLink = styled(PageSwitcher)<{ $isActive: boolean }>`
+const DirectLink = styled(StyledLink)<{ $isActive: boolean }>`
     line-height: 25px;
     font-size: 18px;
     font-weight: 700;
@@ -40,49 +26,57 @@ const DirectLink = styled(PageSwitcher)<{ $isActive: boolean }>`
 `
 
 interface PageControlsProps {
-    page: number
+    currentPage: number
+    pages: number[]
+    lastPage: number
 }
 
-const PageControls: React.FC<PageControlsProps> = ({ page }) => {
+const PageControls: React.FC<PageControlsProps> = ({ currentPage, pages, lastPage }) => {
     const [isFirstPage, setFirstPage] = useState<boolean>(false)
     const [isLastPage, setLastPage] = useState<boolean>(false)
     useEffect(() => {
-        page === 1 ? setFirstPage(true) : setFirstPage(false)
-        page === store.lastPage ? setLastPage(true) : setLastPage(false)
-    }, [page])
+        currentPage === 1 ? setFirstPage(true) : setFirstPage(false)
+        currentPage === lastPage || lastPage === 0
+            ? setLastPage(true)
+            : setLastPage(false)
+    }, [currentPage, lastPage])
     return (
         <LinksContainer>
             {isFirstPage ? (
-                <PageSwitcher
+                <StyledLink
                     to={'#'}
                     style={{ visibility: 'hidden' }}
                     onClick={(event) => event.preventDefault()}
                 >
                     Назад
-                </PageSwitcher>
+                </StyledLink>
             ) : (
-                <PageSwitcher to={`/${page - 1}`}>Назад</PageSwitcher>
+                <StyledLink to={`/${currentPage - 1}`}>Назад</StyledLink>
             )}
             <DirectLinksContainer>
-                {store.pages.map((item) => (
-                    <DirectLink key={item} to={`/${item}`} $isActive={page === item}>
+                {pages?.map((item) => (
+                    <DirectLink
+                        key={item}
+                        to={`/${item}`}
+                        $isActive={currentPage === item}
+                    >
                         {item}
                     </DirectLink>
                 ))}
             </DirectLinksContainer>
             {isLastPage ? (
-                <PageSwitcher
+                <StyledLink
                     to={'#'}
                     style={{ visibility: 'hidden' }}
                     onClick={(event) => event.preventDefault()}
                 >
                     Далее
-                </PageSwitcher>
+                </StyledLink>
             ) : (
-                <PageSwitcher to={`/${page + 1}`}>Далее</PageSwitcher>
+                <StyledLink to={`/${currentPage + 1}`}>Далее</StyledLink>
             )}
         </LinksContainer>
     )
 }
 
-export default observer(PageControls)
+export default PageControls

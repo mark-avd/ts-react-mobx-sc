@@ -1,52 +1,29 @@
 import React from 'react'
-import { observer } from 'mobx-react'
-import TableHeaderCell from './TableHeaderCell'
-import TableBodyRow from './TableBodyRow'
 import StyledTable from './UI/StyledTable'
-import pageSlicer from '../utils/pageSlicer'
-import { store } from '../stores/store'
+import { Post } from '../types'
 
 interface TableProps {
-    page: number
-    postsPerPage: number
+    header: React.ReactElement
+    data: Post[]
 }
 
-const Table: React.FC<TableProps> = ({ page, postsPerPage }) => {
+const Table: React.FC<TableProps> = ({ header, data }) => {
     return (
         <StyledTable>
             <thead>
-                <tr>
-                    <TableHeaderCell text={'ID'} onClick={store.sortById} />
-                    <TableHeaderCell text={'Заголовок'} onClick={store.sortByTitle} />
-                    <TableHeaderCell text={'Описание'} onClick={store.sortByBody} />
-                </tr>
+                <tr>{header}</tr>
             </thead>
             <tbody>
-                {store.posts
-                    .filter((item) => {
-                        if (
-                            item.title
-                                .toLowerCase()
-                                .includes(store.searchTerm.toLowerCase()) ||
-                            item.body
-                                .toLowerCase()
-                                .includes(store.searchTerm.toLowerCase())
-                        ) {
-                            return item
-                        }
-                    })
-                    .slice(...pageSlicer(postsPerPage, page))
-                    .map((post) => (
-                        <TableBodyRow
-                            key={post.id}
-                            id={post.id}
-                            title={post.title}
-                            body={post.body}
-                        />
-                    ))}
+                {data.map((data) => (
+                    <tr key={data.id}>
+                        <td>{data.id}</td>
+                        <td>{data.title}</td>
+                        <td>{data.body}</td>
+                    </tr>
+                ))}
             </tbody>
         </StyledTable>
     )
 }
 
-export default observer(Table)
+export default Table

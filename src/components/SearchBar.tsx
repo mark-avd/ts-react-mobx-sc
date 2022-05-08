@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Icon from './Icon'
 import StyledInput from './UI/StyledInput'
 import { store } from '../stores/store'
+import { observer } from 'mobx-react'
 
 const SearchBarContainer = styled.div`
     position: relative;
@@ -18,7 +19,7 @@ const IconContainer = styled.span`
 
 const SearchBar: React.FC = () => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        store.setSearchTerm(event.target.value)
+        store.setSearchQuery(event.target.value)
     }
     return (
         <SearchBarContainer>
@@ -30,4 +31,4 @@ const SearchBar: React.FC = () => {
     )
 }
 
-export default SearchBar
+export default observer(SearchBar)

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
 import LoadingDummy from '../components/LoadingDummy'
 import SearchBar from '../components/SearchBar'
 import Table from '../components/Table'
-import { store } from '../stores/store'
-import { useParams } from 'react-router-dom'
 import PageControls from '../components/PageControls'
+import TableHeaderCell from '../components/TableHeaderCell'
+import { store } from '../stores/store'
 
 const MainContainer = styled.div`
     display: flex;
@@ -16,7 +17,6 @@ const MainContainer = styled.div`
 
 const MainPage: React.FC = () => {
     const { page = 1 } = useParams()
-    const [postsPerPage] = useState(10)
     const [isLoading, setLoading] = useState(true)
     useEffect(() => {
         store.fetchPosts().then(() => setLoading(false))
@@ -28,8 +28,27 @@ const MainPage: React.FC = () => {
                 <LoadingDummy />
             ) : (
                 <>
-                    <Table page={Number(page)} postsPerPage={postsPerPage} />
-                    <PageControls page={Number(page)} />
+                    <Table
+                        header={
+                            <>
+                                <TableHeaderCell text={'ID'} onClick={store.sortById} />
+                                <TableHeaderCell
+                                    text={'Заголовок'}
+                                    onClick={store.sortByTitle}
+                                />
+                                <TableHeaderCell
+                                    text={'Описание'}
+                                    onClick={store.sortByBody}
+                                />
+                            </>
+                        }
+                        data={store.paginate(store.searchResult(), Number(page))}
+                    />
+                    <PageControls
+                        currentPage={Number(page)}
+                        pages={store.pages}
+                        lastPage={store.maxPages}
+                    />
                 </>
             )}
         </MainContainer>
