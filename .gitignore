@@ -12,6 +12,7 @@
 /build
 
 # Firebase Hosting
+.firebase
 .firebaserc
 firebase-debug.log
 

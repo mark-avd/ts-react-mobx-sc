@@ -35,16 +35,22 @@ class Store {
         )
     }
 
-    sortById = () => {
-        this.posts = [...this.posts].sort((a, b) => a.id - b.id)
+    sortById = (descending: boolean) => {
+        this.posts = [...this.posts].sort((a, b) =>
+            descending ? b.id - a.id : a.id - b.id
+        )
     }
 
-    sortByTitle = () => {
-        this.posts = [...this.posts].sort((a, b) => a.title.localeCompare(b.title))
+    sortByTitle = (descending: boolean) => {
+        this.posts = [...this.posts].sort((a, b) =>
+            descending ? b.title.localeCompare(a.title) : a.title.localeCompare(b.title)
+        )
     }
 
-    sortByBody = () => {
-        this.posts = [...this.posts].sort((a, b) => a.body.localeCompare(b.body))
+    sortByBody = (descending: boolean) => {
+        this.posts = [...this.posts].sort((a, b) =>
+            descending ? b.body.localeCompare(a.body) : a.body.localeCompare(b.body)
+        )
     }
 
     setSearchQuery = (searchTerm: string) => {

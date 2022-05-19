@@ -1,5 +1,5 @@
 import React from 'react'
-import StyledTable from './UI/StyledTable'
+import StyledTable from '../UI/StyledTable'
 import { Post } from '../types'
 
 interface TableProps {

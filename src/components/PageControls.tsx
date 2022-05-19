@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import StyledLink from './UI/StyledLink'
+import StyledLink from '../UI/StyledLink'
 
 const LinksContainer = styled.div`
     display: flex;
